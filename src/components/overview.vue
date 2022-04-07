@@ -2,16 +2,16 @@
 import axios from 'axios';
 
 export default{
-    data(){
-        return {
-
-        }
-    }
+	data(){
+		return {
+            
+		}
+	}
 }
 </script>
 
 <template>
-    <div>
+	<div>
 
-    </div>
+	</div>
 </template>
