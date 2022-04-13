@@ -2,6 +2,12 @@
 import NavBar from "./components/navbar.vue";
 </script>
 
+<script lang="ts">
+export default{
+
+}
+</script>
+
 <template>
   <div>
   <header>
