@@ -4,18 +4,23 @@ import NavBar from "./components/navbar.vue";
 
 <script lang="ts">
 export default{
-
+  methods: {
+    updateNav() {
+      //call UpdateNav() in <NavBar/>
+      this.$refs.NavBar.UpdateNav();
+    }
+  }
 }
 </script>
 
 <template>
   <div>
   <header>
-    <NavBar/>
+    <NavBar ref="NavBar"/>
   </header>
 
   <main>
-    <router-view/>
+    <router-view @updateNav="updateNav"/>
   </main>
 
   </div>

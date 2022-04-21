@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import Report from './report.vue';
 import axios from 'axios';
+import {AxiosRequestConfig} from 'axios'
 </script>
 
 <script lang="ts">
 import { URLSearchParams } from 'url';
-import json from '../assets/pages.json';
 import { useRoute } from 'vue-router';
 import store from '../store';
+import endpoints from '../services.json'
 
 export default{
 	data(){
@@ -18,34 +19,44 @@ export default{
 		}
 	},
 	methods: {
-		GetReports(filter: string){
+		GetReports(filter: string = null){
 			let that = this;
+			
+			let config: AxiosRequestConfig = {
+				params: {
+					pageId: this.pageInfo.id,
+					filter: filter
+				}
+			}
 
 			axios.get(
-				'http://localhost:8080/BugReports/all'
+				endpoints.urls.bugreport + 'BugReports/all', config
 			).then(function (response){
 				that.reports = response.data.reverse();
 			})
 		}
 	},
-	mounted(){
-		this.pageInfo = json.find(p => p.id.toString() == this.$route.query.id);
-
-		this.GetReports('');
-
-		store.data.currentPage = this.pageInfo;
+	beforeMount(){
+		let that = this;
+		axios.get(endpoints.urls.buggerpage + 'BuggerPages/get?pageId=' + this.$route.query.id).then(function (response){
+			that.pageInfo = response.data;
+			store.data.currentPage = that.pageInfo;
+			that.GetReports('');
+			that.$emit('updateNav');
+		})
 	}
 }
 </script>
 
 <template>
 
-	<div class="sideMenu" @scroll="CheckScrollEnd($event.target)">
-		<input class="bugFilterInput" placeholder="Type to filter...">
+	<div class="sideMenu">
+		<input @input="GetReports($event.target.value)" class="bugFilterInput" placeholder="Type to filter...">
 		<div class="bugList">
 			<div @click="currentReport = item" class="bugListItem" v-for="item in reports" :key="item">
 				<h5>{{item.title}}</h5>
 			</div>
+			<br>
 		</div>
 	</div>
 
@@ -56,7 +67,7 @@ export default{
 		</div>		
 
 		<div v-else class="InfoPage">
-			<h2>Welcome to the bugger page for {{pageInfo.name}}.</h2>
+			<h2>{{pageInfo.description}}</h2>
 		</div>
 	</div>
 </template>

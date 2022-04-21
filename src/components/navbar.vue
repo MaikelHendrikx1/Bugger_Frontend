@@ -1,6 +1,8 @@
 <script lang="ts">
-import json from '../assets/pages.json';
 import store from '../store';
+import axios from 'axios';
+import endpoints from '../services.json'
+import {AxiosRequestConfig} from 'axios'
 
 
 export default{
@@ -17,14 +19,27 @@ export default{
     UpdatePages(event){
       if (event.target.value.length > 0){
         this.searching = true;
-        this.pages = json.filter(p => p.name.toLowerCase().includes(event.target.value.toLowerCase()));
+
+        let config: AxiosRequestConfig = {
+          params: {
+            filter: event.target.value,
+            amount: 5
+          }
+        }
+
+        let that = this;
+        axios.get(endpoints.urls.buggerpage + 'BuggerPages/all', config).then(
+          function(response) {
+            that.pages = response.data
+          }
+        )
       }
       else {
         this.searching = false;
         this.pages = {};
       }
     },
-		UpdateNav(){						
+		UpdateNav(){					
 			this.currentPage = store.data.currentPage;
 			this.pages = {};
 			this.searching = false;

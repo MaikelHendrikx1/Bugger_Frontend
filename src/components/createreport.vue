@@ -1,8 +1,8 @@
 <script lang="ts">
 import { URLSearchParams } from 'url';
-import json from '../assets/pages.json';
 import { Router, useRoute } from 'vue-router';
 import store from '../store';
+import endpoints from '../services.json'
 
 import axios from 'axios';
 
@@ -13,8 +13,12 @@ export default {
 		}
 	},
 	beforeMount(){
-		this.pageInfo = json.find(p => p.id.toString() == this.$route.query.id);
-		store.data.currentPage = this.pageInfo;
+    let that = this;
+    axios.get(endpoints.urls.buggerpage + 'BuggerPages/get?pageId=' + this.$route.query.id).then(function(response){
+      that.pageInfo = response.data;
+      store.data.currentPage = response.data;
+      that.$emit('updateNav');
+    })
 	},
   methods: {
     InputAutoGrow(elem: HTMLTextAreaElement){
@@ -23,10 +27,11 @@ export default {
     Submit(){
       let data = {
         title: (document.getElementById('form_input_title') as HTMLInputElement).value,
-        description: (document.getElementById('form_input_description') as HTMLTextAreaElement).value
+        description: (document.getElementById('form_input_description') as HTMLTextAreaElement).value,
+        pageId: this.pageInfo.id
       }
 
-      axios.post('http://localhost:8080/BugReports/add', data)
+      axios.post(endpoints.urls.bugreport + '/BugReports/add', data)
       .then(function (response) {
         console.log(response)
       })
@@ -51,7 +56,7 @@ export default {
       </span>
     </h2>  
   </div>
-  <form @submit.prevent="Submit()" method="post" class="card-body">
+  <form @submit.prevent="Submit()" method="post" class="card-body" autocomplete="off">
     <div class="mb-3">
       <label for="form_input_title" class="form-label">Title:</label>
       <input required type="text" class="form-control" id="form_input_title" placeholder="Add a short description of your problem.">
