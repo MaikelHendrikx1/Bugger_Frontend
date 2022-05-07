@@ -1,8 +1,12 @@
+<script setup lang="ts">
+import AccountBar from './accountBar.vue';
+</script>
+
 <script lang="ts">
 import store from '../store';
 import axios from 'axios';
-import endpoints from '../services.json'
-import {AxiosRequestConfig} from 'axios'
+import endpoints from '../services.json';
+import {AxiosRequestConfig} from 'axios';
 
 
 export default{
@@ -64,6 +68,8 @@ export default{
 			<h2> - <router-link class="navEntry" style="text-decoration: none" :to="`/overview/?id=${currentPage.id}`">{{currentPage.name}}</router-link></h2>
 			<h2> <router-link class="navEntry" style="margin-inline-start: 30%" :to="`/createreport/?id=${currentPage.id}`">Create_bug_report</router-link></h2>
 			<img style="display: none" src @error="UpdateNav()">
+
+      <AccountBar class="alignRight"/>
 		</div>
 
 		<!-- Default navbar -->
@@ -76,12 +82,21 @@ export default{
 
         <li class="dropdown-item" v-if="!pages.length && searching">No pages found</li>
       </ul>
+
+      <AccountBar class="alignRight"/>
     </div>
 
   </div>
 </template>
 
 <style scoped>
+  .alignRight {
+    right: 0;
+    position: fixed;
+    margin-right: 30px;
+    top: 10px;
+  }
+
   .header{
     width: 100%;
     background-color: indianred;

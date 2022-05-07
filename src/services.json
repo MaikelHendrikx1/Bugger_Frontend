@@ -1,6 +1,7 @@
 {
     "urls": {
         "buggerpage": "http://localhost:6001/",
-        "bugreport": "http://localhost:6002/"
+        "bugreport": "http://localhost:6002/",
+        "account": "http://localhost:6003/"
     }
 }

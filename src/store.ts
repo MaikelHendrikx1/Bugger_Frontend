@@ -1,5 +1,6 @@
 export default {
   data: {
-		currentPage: {}
+		currentPage: {},
+    authenticatedUser: {loggedIn: false, id: 0, name: "", email: ""}
   }
 }
