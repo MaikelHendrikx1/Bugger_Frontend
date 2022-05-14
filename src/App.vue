@@ -4,10 +4,16 @@ import NavBar from "./components/navbar.vue";
 
 <script lang="ts">
 export default{
+  childInterface: {
+    UpdateNav: () => {}
+  },
+
   methods: {
+    getChildInterface(childInterface) {
+      this.$options.childInterface = childInterface;
+    },
     updateNav() {
-      //call UpdateNav() in <NavBar/>
-      this.$refs.NavBar.UpdateNav();
+      this.$options.childInterface.UpdateNav();
     }
   }
 }
@@ -16,7 +22,7 @@ export default{
 <template>
   <div>
   <header>
-    <NavBar ref="NavBar"/>
+    <NavBar @interface="getChildInterface"/>
   </header>
 
   <main>

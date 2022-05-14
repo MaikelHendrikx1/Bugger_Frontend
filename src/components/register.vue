@@ -70,7 +70,8 @@ export default{
 </script>
 
 <template>
-    <div class="card-body" style="width: 50%">
+    <div class="card-body" style="width: 50%; margin: auto;">
+        <h1>Register</h1>
         <form>
             <div class="form-group">
                 <label for="input_username">Username:</label>

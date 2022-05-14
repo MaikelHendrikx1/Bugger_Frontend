@@ -19,7 +19,16 @@ export default{
             this.localUser.id += 1;
             this.localUser.id -= 1;
         }, 250)
-    }
+    },
+    watch: {
+		$route(to){
+            this.localUser = store.data.authenticatedUser;
+
+            //for some goddamn reason, vue will only react when I do the mess that is the next 2 lines. Don't touch.
+            this.localUser.id += 1;
+            this.localUser.id -= 1;
+		}
+	}
 }
 </script>
 
