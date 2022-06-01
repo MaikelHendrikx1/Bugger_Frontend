@@ -28,15 +28,16 @@ export default {
       let data = {
         title: (document.getElementById('form_input_title') as HTMLInputElement).value,
         description: (document.getElementById('form_input_description') as HTMLTextAreaElement).value,
-        pageId: this.pageInfo.id
+        pageId: this.pageInfo.id,
+        userId: store.data.authenticatedUser.id
       }
 
       axios.post(endpoints.urls.bugreport + '/BugReports/add', data)
       .then(function (response) {
-        console.log(response)
+        console.log(response);
       })
       .catch(function (error) {
-        alert(error.response);
+        console.log(error);
       })
       .finally(() => {
         this.$router.push({ path: '/overview/', query: {id: this.pageInfo.id} })

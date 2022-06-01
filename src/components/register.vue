@@ -50,15 +50,17 @@ export default{
                         password: inputPassword.value
                     }
                 }
-
+                
+                let that = this;
                 axios.get(endpoints.urls.account + "Account/register?", config).then(
                     function(response) { 
                         alert(response.data.message);
 
-                        //TODO: send verification email
+                        that.$router.push({ path: '/login/' });
                     }
                 ).catch(
                     function(error: AxiosError) {
+                        console.log(error);
                         alert(error.response.data.message);
                         console.log(error.response);
                     }
@@ -100,7 +102,7 @@ export default{
                 <input @input="passwordRepeatMessage = ''" required class="form-control" id="input_password_repeat" type="password">
             </div>
             <br>
-            <button @click="AttemptLogin" type="button">Log in</button>
+            <button @click="AttemptLogin" type="button">Register</button>
         </form>
     </div>
 </template>

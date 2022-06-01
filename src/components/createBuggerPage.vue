@@ -63,6 +63,7 @@ export default {
         CreatePage(){
             let name = (document.getElementById('input_name') as HTMLInputElement).value;
             let description = (document.getElementById('input_description') as HTMLInputElement).value;
+            let that = this;
 
             if (name.length > 3){
                 let data = {
@@ -75,6 +76,29 @@ export default {
                 console.log(data);
 
                 axios.post(endpoints.urls.buggerpage + 'BuggerPages/add', data)
+                .then (
+                    function (response) {
+                        if (typeof response.data == "number"){
+                            that.$router.push({ path: '/overview/', query: {id: response.data} })
+                        }
+                        else {
+                            alert("Something went wrong while trying to create this page.");
+                            console.log(response);
+                        }
+                    }
+                )
+                .catch (
+                    function (error) {
+                        if (error.response.status == 422) {
+                            alert("A page with this name already exists.");
+                        }
+                        else {
+                            alert("Something went wrong while trying to create this page.");
+                            console.log(error);
+                            console.log(error.response);
+                        }
+                    }
+                )
             }   
             else {
                 alert('Name has to be longer than 3 characters.')

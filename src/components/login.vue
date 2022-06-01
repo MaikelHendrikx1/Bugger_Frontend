@@ -25,12 +25,15 @@ export default{
                 }
             }
 
+            let that = this;
             axios.get(endpoints.urls.account + "Account/login", config).then(
                 function(response) { 
                     store.data.authenticatedUser.loggedIn = true;
                     store.data.authenticatedUser.id = response.data.id;
                     store.data.authenticatedUser.email = response.data.email;
                     store.data.authenticatedUser.name = response.data.username;
+
+                    that.$router.push({ path: '/profile/', query: {id: response.data.id} })
                 }
             ).catch(
                 function(error: AxiosError) {
