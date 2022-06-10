@@ -33,6 +33,9 @@ const app = createApp(App);
 app.use(router);
 app.mount('#app');
 
-if (import.meta.env.MODE == "development"){
-	store.data.authenticatedUser = { id: 1, loggedIn: true, name: 'Maikel Hendrikx', email: 'maikel.hendrikx@outlook.com' }
-}
+export { routes };
+export default router;
+
+//if (import.meta.env.MODE == "development"){
+//	store.data.authenticatedUser = { id: 1, loggedIn: true, name: 'Maikel Hendrikx', email: 'maikel.hendrikx@outlook.com' }
+//}
